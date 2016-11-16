@@ -14,5 +14,14 @@ while True:
 	if event_in != "":
 		print 'It checks out!'
 		if event_in == 'z_change':
-			ps = Popen("sudo python /home/pi/Testing/Adafruit_DotStar_Pi/strandtest.py", shell=True)		
-	
+			ps = Popen(['python', '/home/pi/Testing/Adafruit_DotStar_Pi/strandtest.py'])
+                elif event_in == 'stop':
+                        print 'Stopping'
+                        print (ps.pid)
+                        ps.kill()
+#                       try:
+#                        ps.kill()
+ #                       os.kill(ps.pid(),0)
+ #                       except:
+ #                               pass
+                        
