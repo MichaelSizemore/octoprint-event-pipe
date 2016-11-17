@@ -13,15 +13,22 @@ while True:
 	event_in = read_pipe()
 	if event_in != "":
 		print 'It checks out!'
-		if event_in == 'z_change':
+		if event_in == 'test':
 			ps = Popen(['python', '/home/pi/Testing/Adafruit_DotStar_Pi/strandtest.py'])
+		elif event_in == 'z_change':
+			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/z_change.py'])
+		elif event_in == 'connected':
+			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/connected.py'])
+		elif event_in == 'print_started':
+			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/print_started.py'])
+		elif event_in == 'print_done':
+			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/print_done.py'])
+		elif event_in == 'print_cancelled':
+			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/print_cancelled.py'])
                 elif event_in == 'stop':
                         print 'Stopping'
                         print (ps.pid)
-                        ps.kill()
-#                       try:
-#                        ps.kill()
- #                       os.kill(ps.pid(),0)
- #                       except:
- #                               pass
-                        
+                        try:
+                                ps.kill()
+                        except:
+                                print 'SOMETHING WENT WRONG!! COULDN"T KILL'
