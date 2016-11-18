@@ -1,5 +1,6 @@
-import os, time, sys
+import os, time, sys, signal
 from subprocess import Popen
+led_library = "/home/pi/Testing/Adafruit_DotStar_Pi/strandtest.py"
 pipe_name = "event-pipe"
 
 def read_pipe():
@@ -9,12 +10,17 @@ def read_pipe():
 		print 'Process %d got %s at %s' % (os.getpid(), line, time.time())
 	return line
 
+def handler(signum, frame):
+        print 'I give up!'
+
+signal.signal(signal.SIGINT, handler)
+
 while True:
 	event_in = read_pipe()
 	if event_in != "":
 		print 'It checks out!'
 		if event_in == 'test':
-			ps = Popen(['python', '/home/pi/Testing/Adafruit_DotStar_Pi/strandtest.py'])
+			ps = Popen(['python', led_library])
 		elif event_in == 'z_change':
 			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/z_change.py'])
 		elif event_in == 'connected':
@@ -29,6 +35,6 @@ while True:
                         print 'Stopping'
                         print (ps.pid)
                         try:
-                                ps.kill()
+                                ps.terminate()
                         except:
                                 print 'SOMETHING WENT WRONG!! COULDN"T KILL'
