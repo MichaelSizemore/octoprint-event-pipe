@@ -15,26 +15,39 @@ def handler(signum, frame):
 
 signal.signal(signal.SIGINT, handler)
 
+ps = Popen(['ls'])
+
 while True:
 	event_in = read_pipe()
 	if event_in != "":
 		print 'It checks out!'
-		if event_in == 'test':
-			ps = Popen(['python', led_library])
-		elif event_in == 'z_change':
-			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/z_change.py'])
-		elif event_in == 'connected':
-			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/connected.py'])
-		elif event_in == 'print_started':
-			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/print_started.py'])
-		elif event_in == 'print_done':
-			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/print_done.py'])
-		elif event_in == 'print_cancelled':
-			ps = Popen(['python', '/home/pi/Testing/octoprint-event-pipe/print_cancelled.py'])
-                elif event_in == 'stop':
-                        print 'Stopping'
-                        print (ps.pid)
+                print 'Stopping'
+                print (ps.pid)
+                if (ps.pid):
                         try:
                                 ps.terminate()
                         except:
                                 print 'SOMETHING WENT WRONG!! COULDN"T KILL'
+
+                if event_in == 'test':
+			ps = Popen(['python', led_library, 'test'])
+		elif event_in == 'ZChange':
+			ps = Popen(['python', led_library, 'ZChange'])
+		elif event_in == 'Startup':
+			ps = Popen(['python', led_library, 'Startup'])
+		elif event_in == 'Connected':
+			ps = Popen(['python', led_library, 'Connected'])
+		elif event_in == 'Disconnected':
+			ps = Popen(['python', led_library, 'Disconnected'])
+		elif event_in == 'PrintStarted':
+			ps = Popen(['python', led_library, 'PrintStarted'])
+                elif event_in == 'PrintFailed':
+                        ps = Popen(['python', led_library, 'PrintFailed'])
+                elif event_in == 'PrintDone':
+                        ps = Popen(['python', led_library, 'PrintDone'])
+                elif event_in == 'PrintCancelled':
+                        ps = Popen(['python', led_library, 'PrintCancelled'])
+                elif event_in == 'Home':
+                        ps = Popen(['python', led_library, 'Home'])
+                elif event_in == 'Paused':
+                        ps = Popen(['python', led_library, 'Paused'])
